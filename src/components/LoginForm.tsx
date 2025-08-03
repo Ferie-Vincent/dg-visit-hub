@@ -81,10 +81,6 @@ export function LoginForm({ onLogin }: LoginFormProps) {
               {isLoading ? 'Connexion...' : 'Se connecter'}
             </Button>
             
-            <div className="text-sm text-muted-foreground text-center mt-4">
-              <p>Compte par défaut :</p>
-              <p><strong>admin</strong> / <strong>admin123</strong></p>
-            </div>
           </form>
         </CardContent>
       </Card>
