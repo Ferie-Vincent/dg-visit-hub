@@ -4,19 +4,22 @@ import { Dashboard } from '@/components/Dashboard';
 import { VisitsList } from '@/components/VisitsList';
 import { VisitForm } from '@/components/VisitForm';
 import { PurposesList } from '@/components/PurposesList';
+import { AgentsList } from '@/components/AgentsList';
 import { Header } from '@/components/Header';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
 import { useAuth } from '@/hooks/useAuth';
 import { useVisits } from '@/hooks/useVisits';
+import { useAgents } from '@/hooks/useAgents';
 import { useToast } from '@/hooks/use-toast';
 import { type Visit } from '@/lib/storage';
 
-type ViewType = 'dashboard' | 'visits' | 'purposes';
+type ViewType = 'dashboard' | 'visits' | 'purposes' | 'administration';
 
 const Index = () => {
   const { isAuthenticated, user, login, logout } = useAuth();
   const { visits, stats, purposes, addVisit, updateVisit, deleteVisit, searchVisits, exportToCSV, exportToJSON, addPurpose, updatePurpose, deletePurpose } = useVisits();
+  const { agents, addAgent, updateAgent, deleteAgent } = useAgents();
   const { toast } = useToast();
   
   const [currentView, setCurrentView] = useState<ViewType>('dashboard');
@@ -134,6 +137,16 @@ const Index = () => {
             onAdd={addPurpose}
             onUpdate={updatePurpose}
             onDelete={deletePurpose}
+            canEdit={canEdit}
+          />
+        )}
+        
+        {currentView === 'administration' && user?.role === 'admin' && (
+          <AgentsList
+            agents={agents}
+            onAdd={addAgent}
+            onUpdate={updateAgent}
+            onDelete={deleteAgent}
             canEdit={canEdit}
           />
         )}

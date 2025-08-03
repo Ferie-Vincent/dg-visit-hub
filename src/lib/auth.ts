@@ -1,122 +1,90 @@
+import { agentStorage } from './storage';
+
 export interface User {
   id: string;
   username: string;
-  role: 'admin' | 'viewer';
-  createdAt: string;
+  role: 'admin' | 'user' | 'viewer';
+  fullName: string;
 }
 
 export interface AuthState {
-  isAuthenticated: boolean;
   user: User | null;
+  isAuthenticated: boolean;
 }
-
-// Default admin credentials for demo
-const DEFAULT_ADMIN = {
-  username: 'admin',
-  password: 'admin123',
-  role: 'admin' as const
-};
 
 class AuthService {
   private storageKey = 'dg-visit-hub-auth';
 
-  getAuthState(): AuthState {
+  getStoredAuth(): AuthState {
     try {
       const stored = localStorage.getItem(this.storageKey);
-      if (!stored) return { isAuthenticated: false, user: null };
-      
-      const authData = JSON.parse(stored);
-      return {
-        isAuthenticated: true,
-        user: authData.user
-      };
-    } catch {
-      return { isAuthenticated: false, user: null };
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        return {
+          user: parsed.user,
+          isAuthenticated: !!parsed.user
+        };
+      }
+    } catch (error) {
+      console.error('Error reading auth state:', error);
     }
-  }
-
-  login(username: string, password: string): { success: boolean; error?: string; user?: User } {
-    // Check default admin
-    if (username === DEFAULT_ADMIN.username && password === DEFAULT_ADMIN.password) {
-      const user: User = {
-        id: '1',
-        username: DEFAULT_ADMIN.username,
-        role: DEFAULT_ADMIN.role,
-        createdAt: new Date().toISOString()
-      };
-
-      localStorage.setItem(this.storageKey, JSON.stringify({ user }));
-      return { success: true, user };
-    }
-
-    // Check stored users
-    const users = this.getStoredUsers();
-    const foundUser = users.find(u => u.username === username);
     
-    if (!foundUser) {
-      return { success: false, error: 'Utilisateur non trouvé' };
-    }
-
-    const storedPasswords = JSON.parse(localStorage.getItem('dg-visit-hub-passwords') || '{}');
-    if (storedPasswords[foundUser.id] !== password) {
-      return { success: false, error: 'Mot de passe incorrect' };
-    }
-
-    localStorage.setItem(this.storageKey, JSON.stringify({ user: foundUser }));
-    return { success: true, user: foundUser };
+    return {
+      user: null,
+      isAuthenticated: false
+    };
   }
 
-  logout(): void {
+  setStoredAuth(authState: AuthState): void {
+    localStorage.setItem(this.storageKey, JSON.stringify(authState));
+  }
+
+  clearStoredAuth(): void {
     localStorage.removeItem(this.storageKey);
   }
 
-  createUser(username: string, password: string, role: 'admin' | 'viewer'): { success: boolean; error?: string; user?: User } {
-    const users = this.getStoredUsers();
+  login(username: string, password: string): { success: boolean; user?: User; error?: string } {
+    // Rechercher l'agent dans le stockage
+    const agent = agentStorage.findByUsername(username);
     
-    if (users.some(u => u.username === username)) {
-      return { success: false, error: 'Nom d\'utilisateur déjà utilisé' };
+    if (!agent) {
+      return { success: false, error: 'Nom d\'utilisateur ou mot de passe incorrect' };
+    }
+
+    if (!agent.isActive) {
+      return { success: false, error: 'Compte désactivé' };
+    }
+
+    // Pour la démonstration, utilisons un mot de passe par défaut
+    // En production, vous devriez utiliser un système de hachage sécurisé
+    const defaultPassword = agent.role === 'admin' ? 'admin123' : 'user123';
+    
+    if (password !== defaultPassword) {
+      return { success: false, error: 'Nom d\'utilisateur ou mot de passe incorrect' };
     }
 
     const user: User = {
-      id: Date.now().toString(),
-      username,
-      role,
-      createdAt: new Date().toISOString()
+      id: agent.id,
+      username: agent.username,
+      role: agent.role,
+      fullName: agent.fullName
     };
 
-    users.push(user);
-    localStorage.setItem('dg-visit-hub-users', JSON.stringify(users));
+    const authState: AuthState = {
+      user,
+      isAuthenticated: true
+    };
+
+    this.setStoredAuth(authState);
     
-    // Store password separately
-    const passwords = JSON.parse(localStorage.getItem('dg-visit-hub-passwords') || '{}');
-    passwords[user.id] = password;
-    localStorage.setItem('dg-visit-hub-passwords', JSON.stringify(passwords));
+    // Mettre à jour la dernière connexion
+    agentStorage.updateLastLogin(agent.id);
 
     return { success: true, user };
   }
 
-  getStoredUsers(): User[] {
-    try {
-      const stored = localStorage.getItem('dg-visit-hub-users');
-      return stored ? JSON.parse(stored) : [];
-    } catch {
-      return [];
-    }
-  }
-
-  deleteUser(userId: string): boolean {
-    try {
-      const users = this.getStoredUsers().filter(u => u.id !== userId);
-      localStorage.setItem('dg-visit-hub-users', JSON.stringify(users));
-      
-      const passwords = JSON.parse(localStorage.getItem('dg-visit-hub-passwords') || '{}');
-      delete passwords[userId];
-      localStorage.setItem('dg-visit-hub-passwords', JSON.stringify(passwords));
-      
-      return true;
-    } catch {
-      return false;
-    }
+  logout(): void {
+    this.clearStoredAuth();
   }
 }
 

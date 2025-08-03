@@ -22,6 +22,18 @@ export interface VisitStats {
   weeklyVisits: number;
 }
 
+export interface Agent {
+  id: string;
+  username: string;
+  email: string;
+  role: 'admin' | 'user' | 'viewer';
+  fullName: string;
+  isActive: boolean;
+  createdAt: string;
+  updatedAt: string;
+  lastLogin?: string;
+}
+
 class VisitStorage {
   private storageKey = 'dg-visit-hub-visits';
 
@@ -222,5 +234,79 @@ class PurposeStorage {
   }
 }
 
+class AgentStorage {
+  private storageKey = 'dg-visit-hub-agents';
+
+  getAll(): Agent[] {
+    try {
+      const stored = localStorage.getItem(this.storageKey);
+      return stored ? JSON.parse(stored) : [
+        {
+          id: '1',
+          username: 'admin',
+          email: 'admin@dgvisithub.com',
+          role: 'admin',
+          fullName: 'Administrateur Principal',
+          isActive: true,
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+          lastLogin: new Date().toISOString()
+        }
+      ];
+    } catch {
+      return [];
+    }
+  }
+
+  save(agents: Agent[]): void {
+    localStorage.setItem(this.storageKey, JSON.stringify(agents));
+  }
+
+  add(agent: Omit<Agent, 'id' | 'createdAt' | 'updatedAt'>): Agent {
+    const agents = this.getAll();
+    const newAgent: Agent = {
+      ...agent,
+      id: Date.now().toString(),
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
+    };
+    
+    agents.push(newAgent);
+    this.save(agents);
+    return newAgent;
+  }
+
+  update(id: string, updates: Partial<Agent>): Agent | null {
+    const agents = this.getAll();
+    const index = agents.findIndex(a => a.id === id);
+    
+    if (index === -1) return null;
+    
+    agents[index] = {
+      ...agents[index],
+      ...updates,
+      updatedAt: new Date().toISOString()
+    };
+    
+    this.save(agents);
+    return agents[index];
+  }
+
+  delete(id: string): boolean {
+    const agents = this.getAll().filter(a => a.id !== id);
+    this.save(agents);
+    return true;
+  }
+
+  findByUsername(username: string): Agent | null {
+    return this.getAll().find(a => a.username === username) || null;
+  }
+
+  updateLastLogin(id: string): Agent | null {
+    return this.update(id, { lastLogin: new Date().toISOString() });
+  }
+}
+
 export const visitStorage = new VisitStorage();
 export const purposeStorage = new PurposeStorage();
+export const agentStorage = new AgentStorage();

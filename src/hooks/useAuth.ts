@@ -2,10 +2,10 @@ import { useState, useEffect } from 'react';
 import { authService, type AuthState, type User } from '@/lib/auth';
 
 export function useAuth() {
-  const [authState, setAuthState] = useState<AuthState>(() => authService.getAuthState());
+  const [authState, setAuthState] = useState<AuthState>(() => authService.getStoredAuth());
 
   useEffect(() => {
-    const state = authService.getAuthState();
+    const state = authService.getStoredAuth();
     setAuthState(state);
   }, []);
 
@@ -22,24 +22,9 @@ export function useAuth() {
     setAuthState({ isAuthenticated: false, user: null });
   };
 
-  const createUser = (username: string, password: string, role: 'admin' | 'viewer') => {
-    return authService.createUser(username, password, role);
-  };
-
-  const deleteUser = (userId: string) => {
-    return authService.deleteUser(userId);
-  };
-
-  const getUsers = () => {
-    return authService.getStoredUsers();
-  };
-
   return {
     ...authState,
     login,
-    logout,
-    createUser,
-    deleteUser,
-    getUsers
+    logout
   };
 }

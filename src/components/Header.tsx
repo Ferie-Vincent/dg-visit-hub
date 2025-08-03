@@ -7,7 +7,8 @@ import {
   User,
   BarChart3,
   FileText,
-  Tags
+  Tags,
+  Users
 } from 'lucide-react';
 import { type User as UserType } from '@/lib/auth';
 
@@ -15,8 +16,8 @@ interface HeaderProps {
   user: UserType;
   onLogout: () => void;
   onAdminPanel?: () => void;
-  currentView: 'dashboard' | 'visits' | 'purposes';
-  onViewChange: (view: 'dashboard' | 'visits' | 'purposes') => void;
+  currentView: 'dashboard' | 'visits' | 'purposes' | 'administration';
+  onViewChange: (view: 'dashboard' | 'visits' | 'purposes' | 'administration') => void;
 }
 
 export function Header({ user, onLogout, onAdminPanel, currentView, onViewChange }: HeaderProps) {
@@ -54,6 +55,16 @@ export function Header({ user, onLogout, onAdminPanel, currentView, onViewChange
               <Tags className="mr-2 h-4 w-4" />
               Motifs
             </Button>
+            {user.role === 'admin' && (
+              <Button
+                variant={currentView === 'administration' ? 'default' : 'ghost'}
+                size="sm"
+                onClick={() => onViewChange('administration')}
+              >
+                <Users className="mr-2 h-4 w-4" />
+                Administration
+              </Button>
+            )}
           </nav>
         </div>
 
@@ -106,6 +117,16 @@ export function Header({ user, onLogout, onAdminPanel, currentView, onViewChange
             <Tags className="mr-2 h-4 w-4" />
             Motifs
           </Button>
+          {user.role === 'admin' && (
+            <Button
+              variant={currentView === 'administration' ? 'default' : 'ghost'}
+              size="sm"
+              onClick={() => onViewChange('administration')}
+            >
+              <Users className="mr-2 h-4 w-4" />
+              Administration
+            </Button>
+          )}
         </nav>
       </div>
     </header>
