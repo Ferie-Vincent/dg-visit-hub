@@ -77,7 +77,7 @@ export function LoginForm({ onLogin }: LoginFormProps) {
               />
             </div>
             
-            <Button type="submit" className="w-full" disabled={isLoading}>
+            <Button type="submit" className="w-full space-y-2" disabled={isLoading}>
               {isLoading ? 'Connexion...' : 'Se connecter'}
             </Button>
             
