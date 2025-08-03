@@ -3,6 +3,7 @@ import { LoginForm } from '@/components/LoginForm';
 import { Dashboard } from '@/components/Dashboard';
 import { VisitsList } from '@/components/VisitsList';
 import { VisitForm } from '@/components/VisitForm';
+import { PurposesList } from '@/components/PurposesList';
 import { Header } from '@/components/Header';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
@@ -11,11 +12,11 @@ import { useVisits } from '@/hooks/useVisits';
 import { useToast } from '@/hooks/use-toast';
 import { type Visit } from '@/lib/storage';
 
-type ViewType = 'dashboard' | 'visits';
+type ViewType = 'dashboard' | 'visits' | 'purposes';
 
 const Index = () => {
   const { isAuthenticated, user, login, logout } = useAuth();
-  const { visits, stats, addVisit, updateVisit, deleteVisit, searchVisits, exportToCSV, exportToJSON } = useVisits();
+  const { visits, stats, purposes, addVisit, updateVisit, deleteVisit, searchVisits, exportToCSV, exportToJSON, addPurpose, updatePurpose, deletePurpose } = useVisits();
   const { toast } = useToast();
   
   const [currentView, setCurrentView] = useState<ViewType>('dashboard');
@@ -126,12 +127,23 @@ const Index = () => {
             canEdit={canEdit}
           />
         )}
+        
+        {currentView === 'purposes' && (
+          <PurposesList
+            purposes={purposes}
+            onAdd={addPurpose}
+            onUpdate={updatePurpose}
+            onDelete={deletePurpose}
+            canEdit={canEdit}
+          />
+        )}
       </main>
 
       <Dialog open={showVisitForm} onOpenChange={setShowVisitForm}>
         <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
           <VisitForm
             visit={editingVisit}
+            purposes={purposes}
             onSave={handleSaveVisit}
             onCancel={() => {
               setShowVisitForm(false);

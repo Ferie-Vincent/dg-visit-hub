@@ -167,4 +167,60 @@ class VisitStorage {
   }
 }
 
+class PurposeStorage {
+  private storageKey = 'dg-visit-hub-purposes';
+
+  getAll(): string[] {
+    try {
+      const stored = localStorage.getItem(this.storageKey);
+      return stored ? JSON.parse(stored) : [
+        'Réunion de travail',
+        'Présentation de projet',
+        'Entretien candidat',
+        'Visite institutionnelle',
+        'Audit/Contrôle',
+        'Formation',
+        'Réunion budgétaire',
+        'Négociation contrat',
+        'Visite partenaire',
+        'Autre'
+      ];
+    } catch {
+      return [];
+    }
+  }
+
+  save(purposes: string[]): void {
+    localStorage.setItem(this.storageKey, JSON.stringify(purposes));
+  }
+
+  add(purpose: string): boolean {
+    const purposes = this.getAll();
+    if (!purposes.includes(purpose)) {
+      purposes.push(purpose);
+      this.save(purposes);
+      return true;
+    }
+    return false;
+  }
+
+  update(oldPurpose: string, newPurpose: string): boolean {
+    const purposes = this.getAll();
+    const index = purposes.indexOf(oldPurpose);
+    if (index !== -1 && !purposes.includes(newPurpose)) {
+      purposes[index] = newPurpose;
+      this.save(purposes);
+      return true;
+    }
+    return false;
+  }
+
+  delete(purpose: string): boolean {
+    const purposes = this.getAll().filter(p => p !== purpose);
+    this.save(purposes);
+    return true;
+  }
+}
+
 export const visitStorage = new VisitStorage();
+export const purposeStorage = new PurposeStorage();

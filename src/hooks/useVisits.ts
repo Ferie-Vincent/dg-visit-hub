@@ -1,14 +1,16 @@
 import { useState, useEffect } from 'react';
-import { visitStorage, type Visit, type VisitStats } from '@/lib/storage';
+import { visitStorage, purposeStorage, type Visit, type VisitStats } from '@/lib/storage';
 
 export function useVisits() {
   const [visits, setVisits] = useState<Visit[]>([]);
   const [stats, setStats] = useState<VisitStats | null>(null);
+  const [purposes, setPurposes] = useState<string[]>([]);
 
   const refreshData = () => {
     const allVisits = visitStorage.getAll();
     setVisits(allVisits);
     setStats(visitStorage.getStats());
+    setPurposes(purposeStorage.getAll());
   };
 
   useEffect(() => {
@@ -66,9 +68,34 @@ export function useVisits() {
     return visitStorage.getStorageInfo();
   };
 
+  const addPurpose = (purpose: string) => {
+    const success = purposeStorage.add(purpose);
+    if (success) {
+      setPurposes(purposeStorage.getAll());
+    }
+    return success;
+  };
+
+  const updatePurpose = (oldPurpose: string, newPurpose: string) => {
+    const success = purposeStorage.update(oldPurpose, newPurpose);
+    if (success) {
+      setPurposes(purposeStorage.getAll());
+    }
+    return success;
+  };
+
+  const deletePurpose = (purpose: string) => {
+    const success = purposeStorage.delete(purpose);
+    if (success) {
+      setPurposes(purposeStorage.getAll());
+    }
+    return success;
+  };
+
   return {
     visits,
     stats,
+    purposes,
     addVisit,
     updateVisit,
     deleteVisit,
@@ -78,6 +105,9 @@ export function useVisits() {
     importData,
     clearAllData,
     getStorageInfo,
-    refreshData
+    refreshData,
+    addPurpose,
+    updatePurpose,
+    deletePurpose
   };
 }

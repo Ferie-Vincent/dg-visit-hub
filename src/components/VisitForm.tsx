@@ -4,16 +4,18 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Switch } from '@/components/ui/switch';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { type Visit } from '@/lib/storage';
 
 interface VisitFormProps {
   visit?: Visit;
+  purposes: string[];
   onSave: (visitData: Omit<Visit, 'id' | 'createdAt' | 'updatedAt'>) => void;
   onCancel: () => void;
 }
 
-export function VisitForm({ visit, onSave, onCancel }: VisitFormProps) {
+export function VisitForm({ visit, purposes, onSave, onCancel }: VisitFormProps) {
   const [formData, setFormData] = useState({
     visitorName: '',
     company: '',
@@ -113,13 +115,21 @@ export function VisitForm({ visit, onSave, onCancel }: VisitFormProps) {
 
           <div className="space-y-2">
             <Label htmlFor="purpose">Motif de la visite *</Label>
-            <Input
-              id="purpose"
+            <Select
               value={formData.purpose}
-              onChange={(e) => setFormData(prev => ({ ...prev, purpose: e.target.value }))}
-              placeholder="Objectif ou sujet de la visite"
-              required
-            />
+              onValueChange={(value) => setFormData(prev => ({ ...prev, purpose: value }))}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Sélectionnez un motif" />
+              </SelectTrigger>
+              <SelectContent>
+                {purposes.map((purpose) => (
+                  <SelectItem key={purpose} value={purpose}>
+                    {purpose}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">

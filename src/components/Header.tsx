@@ -6,7 +6,8 @@ import {
   Settings, 
   User,
   BarChart3,
-  FileText
+  FileText,
+  Tags
 } from 'lucide-react';
 import { type User as UserType } from '@/lib/auth';
 
@@ -14,8 +15,8 @@ interface HeaderProps {
   user: UserType;
   onLogout: () => void;
   onAdminPanel?: () => void;
-  currentView: 'dashboard' | 'visits';
-  onViewChange: (view: 'dashboard' | 'visits') => void;
+  currentView: 'dashboard' | 'visits' | 'purposes';
+  onViewChange: (view: 'dashboard' | 'visits' | 'purposes') => void;
 }
 
 export function Header({ user, onLogout, onAdminPanel, currentView, onViewChange }: HeaderProps) {
@@ -45,6 +46,14 @@ export function Header({ user, onLogout, onAdminPanel, currentView, onViewChange
               <FileText className="mr-2 h-4 w-4" />
               Visites
             </Button>
+            <Button
+              variant={currentView === 'purposes' ? 'default' : 'ghost'}
+              size="sm"
+              onClick={() => onViewChange('purposes')}
+            >
+              <Tags className="mr-2 h-4 w-4" />
+              Motifs
+            </Button>
           </nav>
         </div>
 
@@ -72,7 +81,7 @@ export function Header({ user, onLogout, onAdminPanel, currentView, onViewChange
       
       {/* Mobile navigation */}
       <div className="md:hidden border-t px-6 py-2">
-        <nav className="flex space-x-2">
+        <nav className="flex space-x-2 overflow-x-auto">
           <Button
             variant={currentView === 'dashboard' ? 'default' : 'ghost'}
             size="sm"
@@ -88,6 +97,14 @@ export function Header({ user, onLogout, onAdminPanel, currentView, onViewChange
           >
             <FileText className="mr-2 h-4 w-4" />
             Visites
+          </Button>
+          <Button
+            variant={currentView === 'purposes' ? 'default' : 'ghost'}
+            size="sm"
+            onClick={() => onViewChange('purposes')}
+          >
+            <Tags className="mr-2 h-4 w-4" />
+            Motifs
           </Button>
         </nav>
       </div>
