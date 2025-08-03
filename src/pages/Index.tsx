@@ -112,7 +112,7 @@ const Index = () => {
       
       <main className="container mx-auto px-6 py-8">
         {currentView === 'dashboard' && stats && (
-          <Dashboard stats={stats} />
+          <Dashboard stats={stats} visits={visits} />
         )}
         
         {currentView === 'visits' && (
