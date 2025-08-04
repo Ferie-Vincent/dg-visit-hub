@@ -232,6 +232,82 @@ export function Dashboard({ stats, visits }: DashboardProps) {
         </Card>
       </div>
 
+            <div className="grid gap-4 md:grid-cols-2">
+        <Card>
+          <CardHeader>
+            <CardTitle>Activité récente</CardTitle>
+            <CardDescription>
+              Résumé de l'activité des visites
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-2">
+                <div className="w-2 h-2 bg-chart-1 rounded-full"></div>
+                <span className="text-sm">Visites totales</span>
+              </div>
+              <Badge variant="secondary">{stats.totalVisits}</Badge>
+            </div>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-2">
+                <div className="w-2 h-2 bg-chart-2 rounded-full"></div>
+                <span className="text-sm">Visites stratégiques</span>
+              </div>
+              <Badge variant="secondary">
+                {Math.round((stats.strategicPercentage / 100) * stats.totalVisits)}
+              </Badge>
+            </div>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-2">
+                <div className="w-2 h-2 bg-chart-3 rounded-full"></div>
+                <span className="text-sm">Cette semaine</span>
+              </div>
+              <Badge variant="secondary">{stats.weeklyVisits}</Badge>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Insights</CardTitle>
+            <CardDescription>
+              Analyse des données de visite
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="space-y-2">
+              <div className="flex justify-between text-sm">
+                <span>Taux de visites stratégiques</span>
+                <span className="font-medium">{Math.round(stats.strategicPercentage)}%</span>
+              </div>
+              <div className="w-full bg-secondary rounded-full h-2">
+                <div 
+                  className="bg-chart-2 h-2 rounded-full transition-all duration-300" 
+                  style={{ width: `${Math.min(stats.strategicPercentage, 100)}%` }}
+                />
+              </div>
+            </div>
+            
+            <div className="space-y-2">
+              <div className="flex justify-between text-sm">
+                <span>Activité hebdomadaire</span>
+                <span className="font-medium">
+                  {stats.totalVisits > 0 ? Math.round((stats.weeklyVisits / stats.totalVisits) * 100) : 0}%
+                </span>
+              </div>
+              <div className="w-full bg-secondary rounded-full h-2">
+                <div 
+                  className="bg-chart-1 h-2 rounded-full transition-all duration-300" 
+                  style={{ 
+                    width: `${stats.totalVisits > 0 ? Math.min((stats.weeklyVisits / stats.totalVisits) * 100, 100) : 0}%` 
+                  }}
+                />
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
       {/* Section des graphiques */}
       <div className="space-y-6">
         <div>
@@ -366,81 +442,6 @@ export function Dashboard({ stats, visits }: DashboardProps) {
         </div>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2">
-        <Card>
-          <CardHeader>
-            <CardTitle>Activité récente</CardTitle>
-            <CardDescription>
-              Résumé de l'activité des visites
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-2">
-                <div className="w-2 h-2 bg-chart-1 rounded-full"></div>
-                <span className="text-sm">Visites totales</span>
-              </div>
-              <Badge variant="secondary">{stats.totalVisits}</Badge>
-            </div>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-2">
-                <div className="w-2 h-2 bg-chart-2 rounded-full"></div>
-                <span className="text-sm">Visites stratégiques</span>
-              </div>
-              <Badge variant="secondary">
-                {Math.round((stats.strategicPercentage / 100) * stats.totalVisits)}
-              </Badge>
-            </div>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-2">
-                <div className="w-2 h-2 bg-chart-3 rounded-full"></div>
-                <span className="text-sm">Cette semaine</span>
-              </div>
-              <Badge variant="secondary">{stats.weeklyVisits}</Badge>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>Insights</CardTitle>
-            <CardDescription>
-              Analyse des données de visite
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="space-y-2">
-              <div className="flex justify-between text-sm">
-                <span>Taux de visites stratégiques</span>
-                <span className="font-medium">{Math.round(stats.strategicPercentage)}%</span>
-              </div>
-              <div className="w-full bg-secondary rounded-full h-2">
-                <div 
-                  className="bg-chart-2 h-2 rounded-full transition-all duration-300" 
-                  style={{ width: `${Math.min(stats.strategicPercentage, 100)}%` }}
-                />
-              </div>
-            </div>
-            
-            <div className="space-y-2">
-              <div className="flex justify-between text-sm">
-                <span>Activité hebdomadaire</span>
-                <span className="font-medium">
-                  {stats.totalVisits > 0 ? Math.round((stats.weeklyVisits / stats.totalVisits) * 100) : 0}%
-                </span>
-              </div>
-              <div className="w-full bg-secondary rounded-full h-2">
-                <div 
-                  className="bg-chart-1 h-2 rounded-full transition-all duration-300" 
-                  style={{ 
-                    width: `${stats.totalVisits > 0 ? Math.min((stats.weeklyVisits / stats.totalVisits) * 100, 100) : 0}%` 
-                  }}
-                />
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
     </div>
   );
 }
