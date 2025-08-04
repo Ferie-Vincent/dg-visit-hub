@@ -17,34 +17,45 @@ All colors MUST be HSL.
     --popover: 0 0% 100%;
     --popover-foreground: 215 25% 15%;
 
-    --primary: 217 89% 48%;
+    --primary: 220 91% 60%;
     --primary-foreground: 0 0% 100%;
-    --primary-hover: 217 89% 42%;
+    --primary-hover: 220 91% 55%;
 
-    --secondary: 220 14% 94%;
-    --secondary-foreground: 215 25% 25%;
+    --secondary: 142 85% 45%;
+    --secondary-foreground: 0 0% 100%;
 
     --muted: 220 14% 94%;
     --muted-foreground: 215 16% 47%;
 
-    --accent: 142 76% 36%;
+    --accent: 25 95% 53%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --warning: 38 92% 50%;
+    --warning: 25 95% 53%;
     --warning-foreground: 0 0% 100%;
+
+    --success: 142 85% 45%;
+    --success-foreground: 0 0% 100%;
+
+    --purple: 271 81% 60%;
+    --purple-foreground: 0 0% 100%;
 
     --border: 220 13% 91%;
     --input: 220 13% 91%;
-    --ring: 217 89% 48%;
+    --ring: 220 91% 60%;
 
-    --chart-1: 217 89% 48%;
-    --chart-2: 142 76% 36%;
-    --chart-3: 38 92% 50%;
-    --chart-4: 271 81% 56%;
+    --chart-1: 220 91% 60%;
+    --chart-2: 142 85% 45%;
+    --chart-3: 25 95% 53%;
+    --chart-4: 271 81% 60%;
     --chart-5: 0 84% 60%;
+
+    --gradient-primary: linear-gradient(135deg, hsl(220 91% 60%), hsl(220 91% 70%));
+    --gradient-secondary: linear-gradient(135deg, hsl(142 85% 45%), hsl(142 85% 55%));
+    --gradient-accent: linear-gradient(135deg, hsl(25 95% 53%), hsl(25 95% 63%));
+    --gradient-purple: linear-gradient(135deg, hsl(271 81% 60%), hsl(271 81% 70%));
 
     --radius: 0.5rem;
 
@@ -75,34 +86,45 @@ All colors MUST be HSL.
     --popover: 224 71% 6%;
     --popover-foreground: 213 31% 91%;
 
-    --primary: 217 89% 55%;
+    --primary: 220 91% 65%;
     --primary-foreground: 224 71% 4%;
-    --primary-hover: 217 89% 48%;
+    --primary-hover: 220 91% 60%;
 
-    --secondary: 215 28% 17%;
-    --secondary-foreground: 213 31% 91%;
+    --secondary: 142 85% 50%;
+    --secondary-foreground: 224 71% 4%;
 
     --muted: 215 28% 17%;
     --muted-foreground: 217.9 10.6% 64.9%;
 
-    --accent: 142 76% 42%;
+    --accent: 25 95% 58%;
     --accent-foreground: 224 71% 4%;
 
     --destructive: 0 84% 65%;
     --destructive-foreground: 224 71% 4%;
 
-    --warning: 38 92% 55%;
+    --warning: 25 95% 58%;
     --warning-foreground: 224 71% 4%;
+
+    --success: 142 85% 50%;
+    --success-foreground: 224 71% 4%;
+
+    --purple: 271 81% 65%;
+    --purple-foreground: 224 71% 4%;
 
     --border: 215 28% 17%;
     --input: 215 28% 17%;
-    --ring: 217 89% 55%;
+    --ring: 220 91% 65%;
 
-    --chart-1: 217 89% 55%;
-    --chart-2: 142 76% 42%;
-    --chart-3: 38 92% 55%;
-    --chart-4: 271 81% 62%;
+    --chart-1: 220 91% 65%;
+    --chart-2: 142 85% 50%;
+    --chart-3: 25 95% 58%;
+    --chart-4: 271 81% 65%;
     --chart-5: 0 84% 65%;
+
+    --gradient-primary: linear-gradient(135deg, hsl(220 91% 65%), hsl(220 91% 75%));
+    --gradient-secondary: linear-gradient(135deg, hsl(142 85% 50%), hsl(142 85% 60%));
+    --gradient-accent: linear-gradient(135deg, hsl(25 95% 58%), hsl(25 95% 68%));
+    --gradient-purple: linear-gradient(135deg, hsl(271 81% 65%), hsl(271 81% 75%));
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;

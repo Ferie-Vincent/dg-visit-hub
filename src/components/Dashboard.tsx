@@ -135,97 +135,97 @@ export function Dashboard({ stats, visits }: DashboardProps) {
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        <Card>
+        <Card className="animate-fade-in hover:scale-105 transition-all duration-300 bg-gradient-to-br from-chart-1 to-chart-1/80 text-white border-0 shadow-lg">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
+            <CardTitle className="text-sm font-medium opacity-90">
               Total des visites
             </CardTitle>
-            <Users className="h-4 w-4 text-muted-foreground" />
+            <Users className="h-5 w-5 opacity-80" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{stats.totalVisits}</div>
-            <p className="text-xs text-muted-foreground">
+            <div className="text-3xl font-bold">{stats.totalVisits}</div>
+            <p className="text-xs opacity-75">
               Toutes périodes confondues
             </p>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="animate-fade-in hover:scale-105 transition-all duration-300 bg-gradient-to-br from-chart-2 to-chart-2/80 text-white border-0 shadow-lg" style={{ animationDelay: '0.1s' }}>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
+            <CardTitle className="text-sm font-medium opacity-90">
               Visiteurs uniques
             </CardTitle>
-            <Activity className="h-4 w-4 text-muted-foreground" />
+            <Activity className="h-5 w-5 opacity-80" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{stats.uniqueVisitors}</div>
-            <p className="text-xs text-muted-foreground">
+            <div className="text-3xl font-bold">{stats.uniqueVisitors}</div>
+            <p className="text-xs opacity-75">
               Personnes différentes
             </p>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="animate-fade-in hover:scale-105 transition-all duration-300 bg-gradient-to-br from-chart-3 to-chart-3/80 text-white border-0 shadow-lg" style={{ animationDelay: '0.2s' }}>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
+            <CardTitle className="text-sm font-medium opacity-90">
               Durée moyenne
             </CardTitle>
-            <Clock className="h-4 w-4 text-muted-foreground" />
+            <Clock className="h-5 w-5 opacity-80" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
+            <div className="text-3xl font-bold">
               {formatDuration(stats.averageDuration)}
             </div>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-xs opacity-75">
               Par visite
             </p>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="animate-fade-in hover:scale-105 transition-all duration-300 bg-gradient-to-br from-chart-4 to-chart-4/80 text-white border-0 shadow-lg" style={{ animationDelay: '0.3s' }}>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
+            <CardTitle className="text-sm font-medium opacity-90">
               Temps total
             </CardTitle>
-            <TrendingUp className="h-4 w-4 text-muted-foreground" />
+            <TrendingUp className="h-5 w-5 opacity-80" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
+            <div className="text-3xl font-bold">
               {formatTotalTime(stats.totalTime)}
             </div>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-xs opacity-75">
               Cumul des visites
             </p>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="animate-fade-in hover:scale-105 transition-all duration-300 bg-gradient-to-br from-accent to-accent/80 text-white border-0 shadow-lg" style={{ animationDelay: '0.4s' }}>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
+            <CardTitle className="text-sm font-medium opacity-90">
               Visites stratégiques
             </CardTitle>
-            <Star className="h-4 w-4 text-muted-foreground" />
+            <Star className="h-5 w-5 opacity-80" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
+            <div className="text-3xl font-bold">
               {Math.round(stats.strategicPercentage)}%
             </div>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-xs opacity-75">
               Du total des visites
             </p>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="animate-fade-in hover:scale-105 transition-all duration-300 bg-gradient-to-br from-purple to-purple/80 text-white border-0 shadow-lg" style={{ animationDelay: '0.5s' }}>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
+            <CardTitle className="text-sm font-medium opacity-90">
               Cette semaine
             </CardTitle>
-            <Calendar className="h-4 w-4 text-muted-foreground" />
+            <Calendar className="h-5 w-5 opacity-80" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{stats.weeklyVisits}</div>
-            <p className="text-xs text-muted-foreground">
+            <div className="text-3xl font-bold">{stats.weeklyVisits}</div>
+            <p className="text-xs opacity-75">
               7 derniers jours
             </p>
           </CardContent>
@@ -243,32 +243,41 @@ export function Dashboard({ stats, visits }: DashboardProps) {
 
         <div className="grid gap-6 md:grid-cols-2">
           {/* Graphique évolution des visites */}
-          <Card>
+          <Card className="animate-scale-in shadow-xl hover:shadow-2xl transition-all duration-300 border-0">
             <CardHeader>
-              <CardTitle>Évolution des visites</CardTitle>
+              <CardTitle className="text-xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+                Évolution des visites
+              </CardTitle>
               <CardDescription>7 derniers jours</CardDescription>
             </CardHeader>
             <CardContent>
-              <ChartContainer config={chartConfig} className="h-[200px]">
+              <ChartContainer config={chartConfig} className="h-[250px]">
                 <BarChart data={visitsOverTime}>
-                  <CartesianGrid strokeDasharray="3 3" />
+                  <CartesianGrid strokeDasharray="3 3" opacity={0.3} />
                   <XAxis dataKey="date" />
                   <YAxis />
                   <ChartTooltip content={<ChartTooltipContent />} />
-                  <Bar dataKey="visites" fill="var(--color-visites)" radius={4} />
+                  <Bar 
+                    dataKey="visites" 
+                    fill="var(--color-visites)" 
+                    radius={[6, 6, 0, 0]}
+                    className="hover:opacity-80 transition-opacity"
+                  />
                 </BarChart>
               </ChartContainer>
             </CardContent>
           </Card>
 
           {/* Graphique motifs de visite */}
-          <Card>
+          <Card className="animate-scale-in shadow-xl hover:shadow-2xl transition-all duration-300 border-0" style={{ animationDelay: '0.2s' }}>
             <CardHeader>
-              <CardTitle>Répartition par motif</CardTitle>
+              <CardTitle className="text-xl font-bold bg-gradient-to-r from-secondary to-accent bg-clip-text text-transparent">
+                Répartition par motif
+              </CardTitle>
               <CardDescription>Top des motifs de visite</CardDescription>
             </CardHeader>
             <CardContent>
-              <ChartContainer config={chartConfig} className="h-[200px]">
+              <ChartContainer config={chartConfig} className="h-[250px]">
                 <PieChart>
                   <Pie
                     data={purposeData}
@@ -276,8 +285,11 @@ export function Dashboard({ stats, visits }: DashboardProps) {
                     nameKey="name"
                     cx="50%"
                     cy="50%"
-                    outerRadius={80}
+                    outerRadius={90}
                     label={({ percentage }) => `${percentage}%`}
+                    stroke="hsl(var(--background))"
+                    strokeWidth={2}
+                    className="hover:opacity-80 transition-opacity"
                   >
                     {purposeData.map((entry, index) => (
                       <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
@@ -290,13 +302,15 @@ export function Dashboard({ stats, visits }: DashboardProps) {
           </Card>
 
           {/* Graphique visites stratégiques */}
-          <Card>
+          <Card className="animate-fade-in shadow-xl hover:shadow-2xl transition-all duration-300 border-0" style={{ animationDelay: '0.4s' }}>
             <CardHeader>
-              <CardTitle>Visites stratégiques</CardTitle>
+              <CardTitle className="text-xl font-bold bg-gradient-to-r from-purple to-primary bg-clip-text text-transparent">
+                Visites stratégiques
+              </CardTitle>
               <CardDescription>Répartition stratégique vs non stratégique</CardDescription>
             </CardHeader>
             <CardContent>
-              <ChartContainer config={chartConfig} className="h-[200px]">
+              <ChartContainer config={chartConfig} className="h-[250px]">
                 <PieChart>
                   <Pie
                     data={strategicData}
@@ -304,9 +318,12 @@ export function Dashboard({ stats, visits }: DashboardProps) {
                     nameKey="name"
                     cx="50%"
                     cy="50%"
-                    innerRadius={40}
-                    outerRadius={80}
+                    innerRadius={50}
+                    outerRadius={90}
                     label={({ value, name }) => `${name}: ${value}`}
+                    stroke="hsl(var(--background))"
+                    strokeWidth={2}
+                    className="hover:opacity-80 transition-opacity"
                   >
                     {strategicData.map((entry, index) => (
                       <Cell key={`cell-${index}`} fill={entry.fill} />
@@ -319,15 +336,17 @@ export function Dashboard({ stats, visits }: DashboardProps) {
           </Card>
 
           {/* Graphique évolution durée moyenne */}
-          <Card>
+          <Card className="animate-fade-in shadow-xl hover:shadow-2xl transition-all duration-300 border-0" style={{ animationDelay: '0.6s' }}>
             <CardHeader>
-              <CardTitle>Durée moyenne des visites</CardTitle>
+              <CardTitle className="text-xl font-bold bg-gradient-to-r from-accent to-secondary bg-clip-text text-transparent">
+                Durée moyenne des visites
+              </CardTitle>
               <CardDescription>Évolution sur 7 jours (en minutes)</CardDescription>
             </CardHeader>
             <CardContent>
-              <ChartContainer config={chartConfig} className="h-[200px]">
+              <ChartContainer config={chartConfig} className="h-[250px]">
                 <LineChart data={durationTrend}>
-                  <CartesianGrid strokeDasharray="3 3" />
+                  <CartesianGrid strokeDasharray="3 3" opacity={0.3} />
                   <XAxis dataKey="date" />
                   <YAxis />
                   <ChartTooltip content={<ChartTooltipContent />} />
@@ -335,8 +354,10 @@ export function Dashboard({ stats, visits }: DashboardProps) {
                     type="monotone" 
                     dataKey="duree" 
                     stroke="var(--color-duree)" 
-                    strokeWidth={2}
-                    dot={{ fill: "var(--color-duree)" }}
+                    strokeWidth={3}
+                    dot={{ fill: "var(--color-duree)", strokeWidth: 2, r: 6 }}
+                    activeDot={{ r: 8, fill: "var(--color-duree)" }}
+                    className="hover:opacity-80 transition-opacity"
                   />
                 </LineChart>
               </ChartContainer>

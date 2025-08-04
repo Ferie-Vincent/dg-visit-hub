@@ -22,7 +22,7 @@ interface HeaderProps {
 
 export function Header({ user, onLogout, onAdminPanel, currentView, onViewChange }: HeaderProps) {
   return (
-    <header className="border-b bg-card">
+    <header className="border-b bg-card/95 backdrop-blur-sm shadow-sm animate-fade-in">
       <div className="flex h-16 items-center justify-between px-6">
         <div className="flex items-center space-x-4">
           <div className="flex items-center space-x-3">
@@ -35,6 +35,7 @@ export function Header({ user, onLogout, onAdminPanel, currentView, onViewChange
               variant={currentView === 'dashboard' ? 'default' : 'ghost'}
               size="sm"
               onClick={() => onViewChange('dashboard')}
+              className="hover:scale-105 transition-all duration-200"
             >
               <BarChart3 className="mr-2 h-4 w-4" />
               Tableau de bord
@@ -43,6 +44,7 @@ export function Header({ user, onLogout, onAdminPanel, currentView, onViewChange
               variant={currentView === 'visits' ? 'default' : 'ghost'}
               size="sm"
               onClick={() => onViewChange('visits')}
+              className="hover:scale-105 transition-all duration-200"
             >
               <FileText className="mr-2 h-4 w-4" />
               Visites
@@ -51,6 +53,7 @@ export function Header({ user, onLogout, onAdminPanel, currentView, onViewChange
               variant={currentView === 'purposes' ? 'default' : 'ghost'}
               size="sm"
               onClick={() => onViewChange('purposes')}
+              className="hover:scale-105 transition-all duration-200"
             >
               <Tags className="mr-2 h-4 w-4" />
               Motifs
@@ -60,6 +63,7 @@ export function Header({ user, onLogout, onAdminPanel, currentView, onViewChange
                 variant={currentView === 'administration' ? 'default' : 'ghost'}
                 size="sm"
                 onClick={() => onViewChange('administration')}
+                className="hover:scale-105 transition-all duration-200"
               >
                 <Users className="mr-2 h-4 w-4" />
                 Administration
@@ -72,18 +76,31 @@ export function Header({ user, onLogout, onAdminPanel, currentView, onViewChange
           <div className="flex items-center space-x-2">
             <User className="h-4 w-4 text-muted-foreground" />
             <span className="text-sm font-medium">{user.username}</span>
-            <Badge variant={user.role === 'admin' ? 'default' : 'secondary'}>
+            <Badge 
+              variant={user.role === 'admin' ? 'default' : 'secondary'}
+              className="animate-scale-in"
+            >
               {user.role === 'admin' ? 'Administrateur' : 'Consultation'}
             </Badge>
           </div>
 
           <div className="flex items-center space-x-2">
             {user.role === 'admin' && onAdminPanel && (
-              <Button variant="ghost" size="sm" onClick={onAdminPanel}>
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                onClick={onAdminPanel}
+                className="hover:scale-110 transition-all duration-200 hover:bg-accent/20"
+              >
                 <Settings className="h-4 w-4" />
               </Button>
             )}
-            <Button variant="ghost" size="sm" onClick={onLogout}>
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              onClick={onLogout}
+              className="hover:scale-110 transition-all duration-200 hover:bg-destructive/20"
+            >
               <LogOut className="h-4 w-4" />
             </Button>
           </div>
