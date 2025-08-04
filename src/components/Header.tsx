@@ -1,7 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { 
-  Building2, 
   LogOut, 
   Settings, 
   User,
@@ -11,6 +10,7 @@ import {
   Users
 } from 'lucide-react';
 import { type User as UserType } from '@/lib/auth';
+
 
 interface HeaderProps {
   user: UserType;
@@ -25,8 +25,8 @@ export function Header({ user, onLogout, onAdminPanel, currentView, onViewChange
     <header className="border-b bg-card">
       <div className="flex h-16 items-center justify-between px-6">
         <div className="flex items-center space-x-4">
-          <div className="flex items-center space-x-2">
-            <Building2 className="h-6 w-6 text-primary" />
+          <div className="flex items-center space-x-3">
+            <img src="/lovable-uploads/a191b29e-98bb-461b-8a0b-0f362e0b69cf.png" alt="DGIE Logo" className="h-8 w-auto" />
             <h1 className="text-lg font-semibold">DG Visit Hub</h1>
           </div>
           
