@@ -46,11 +46,11 @@ All colors MUST be HSL.
     --input: 220 13% 91%;
     --ring: 25 95% 53%;
 
-    --chart-1: 25 95% 53%;
-    --chart-2: 142 85% 35%;
-    --chart-3: 218 11% 45%;
-    --chart-4: 218 11% 45%;
-    --chart-5: 218 11% 45%;
+    --chart-1: 217 91% 60%;
+    --chart-2: 142 76% 36%;
+    --chart-3: 25 95% 53%;
+    --chart-4: 262 83% 58%;
+    --chart-5: 346 87% 43%;
 
     --gradient-primary: linear-gradient(135deg, hsl(25 95% 53%), hsl(25 95% 63%));
     --gradient-secondary: linear-gradient(135deg, hsl(142 85% 35%), hsl(142 85% 45%));

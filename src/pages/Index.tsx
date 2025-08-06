@@ -1,14 +1,14 @@
 import { useState } from 'react';
-import { LoginForm } from '@/components/LoginForm';
+import { Navigate } from 'react-router-dom';
 import { Dashboard } from '@/components/Dashboard';
 import { VisitsList } from '@/components/VisitsList';
 import { VisitForm } from '@/components/VisitForm';
 import { PurposesList } from '@/components/PurposesList';
 import { AgentsList } from '@/components/AgentsList';
 import { Header } from '@/components/Header';
-import { Dialog, DialogContent } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
-import { useAuth } from '@/hooks/useAuth';
+import { useSupabaseAuth } from '@/hooks/useSupabaseAuth';
 import { useVisits } from '@/hooks/useVisits';
 import { useAgents } from '@/hooks/useAgents';
 import { useToast } from '@/hooks/use-toast';
@@ -17,7 +17,7 @@ import { type Visit } from '@/lib/storage';
 type ViewType = 'dashboard' | 'visits' | 'purposes' | 'administration';
 
 const Index = () => {
-  const { isAuthenticated, user, login, logout } = useAuth();
+  const { session, profile, signOut, loading } = useSupabaseAuth();
   const { visits, stats, purposes, addVisit, updateVisit, deleteVisit, searchVisits, exportToCSV, exportToJSON, addPurpose, updatePurpose, deletePurpose } = useVisits();
   const { agents, addAgent, updateAgent, deleteAgent } = useAgents();
   const { toast } = useToast();
@@ -27,19 +27,8 @@ const Index = () => {
   const [editingVisit, setEditingVisit] = useState<Visit | null>(null);
   const [deletingVisit, setDeletingVisit] = useState<Visit | null>(null);
 
-  const handleLogin = (username: string, password: string) => {
-    const result = login(username, password);
-    if (result.success) {
-      toast({
-        title: "Connexion réussie",
-        description: `Bienvenue ${result.user?.username}`,
-      });
-    }
-    return result;
-  };
-
-  const handleLogout = () => {
-    logout();
+  const handleLogout = async () => {
+    await signOut();
     setCurrentView('dashboard');
     toast({
       title: "Déconnexion",
@@ -98,16 +87,26 @@ const Index = () => {
     }
   };
 
-  if (!isAuthenticated || !user) {
-    return <LoginForm onLogin={handleLogin} />;
+  // Redirect to auth page if not authenticated
+  if (!session && !loading) {
+    return <Navigate to="/auth" replace />;
   }
 
-  const canEdit = user.role === 'admin';
+  // Show loading spinner while checking auth state
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+      </div>
+    );
+  }
+
+  const canEdit = profile?.role === 'admin';
 
   return (
     <div className="min-h-screen bg-background">
       <Header
-        user={user}
+        user={profile}
         onLogout={handleLogout}
         currentView={currentView}
         onViewChange={setCurrentView}
@@ -141,7 +140,7 @@ const Index = () => {
           />
         )}
         
-        {currentView === 'administration' && user?.role === 'admin' && (
+        {currentView === 'administration' && profile?.role === 'admin' && (
           <AgentsList
             agents={agents}
             onAdd={addAgent}
@@ -154,6 +153,11 @@ const Index = () => {
 
       <Dialog open={showVisitForm} onOpenChange={setShowVisitForm}>
         <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>
+              {editingVisit ? 'Modifier la visite' : 'Nouvelle visite'}
+            </DialogTitle>
+          </DialogHeader>
           <VisitForm
             visit={editingVisit}
             purposes={purposes}

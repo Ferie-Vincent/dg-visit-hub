@@ -123,6 +123,102 @@ export type Database = {
         }
         Relationships: []
       }
+      profiles: {
+        Row: {
+          created_at: string
+          display_name: string | null
+          id: string
+          role: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          display_name?: string | null
+          id?: string
+          role?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          display_name?: string | null
+          id?: string
+          role?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      purposes: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      visits: {
+        Row: {
+          company: string
+          created_at: string
+          created_by: string | null
+          duration: number | null
+          end_time: string | null
+          id: string
+          is_strategic: boolean
+          notes: string | null
+          purpose: string
+          start_time: string
+          updated_at: string
+          visit_date: string
+          visitor_name: string
+        }
+        Insert: {
+          company: string
+          created_at?: string
+          created_by?: string | null
+          duration?: number | null
+          end_time?: string | null
+          id?: string
+          is_strategic?: boolean
+          notes?: string | null
+          purpose: string
+          start_time: string
+          updated_at?: string
+          visit_date: string
+          visitor_name: string
+        }
+        Update: {
+          company?: string
+          created_at?: string
+          created_by?: string | null
+          duration?: number | null
+          end_time?: string | null
+          id?: string
+          is_strategic?: boolean
+          notes?: string | null
+          purpose?: string
+          start_time?: string
+          updated_at?: string
+          visit_date?: string
+          visitor_name?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

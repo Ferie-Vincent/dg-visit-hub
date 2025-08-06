@@ -9,11 +9,17 @@ import {
   Tags,
   Users
 } from 'lucide-react';
-import { type User as UserType } from '@/lib/auth';
-
+interface Profile {
+  id: string;
+  user_id: string;
+  display_name: string | null;
+  role: 'admin' | 'user' | 'viewer';
+  created_at: string;
+  updated_at: string;
+}
 
 interface HeaderProps {
-  user: UserType;
+  user: Profile | null;
   onLogout: () => void;
   onAdminPanel?: () => void;
   currentView: 'dashboard' | 'visits' | 'purposes' | 'administration';
@@ -21,6 +27,7 @@ interface HeaderProps {
 }
 
 export function Header({ user, onLogout, onAdminPanel, currentView, onViewChange }: HeaderProps) {
+  if (!user) return null;
   return (
     <header className="border-b bg-card/95 backdrop-blur-sm shadow-sm animate-fade-in">
       <div className="flex h-16 items-center justify-between px-6">
@@ -58,7 +65,7 @@ export function Header({ user, onLogout, onAdminPanel, currentView, onViewChange
               <Tags className="mr-2 h-4 w-4" />
               Motifs
             </Button>
-            {user.role === 'admin' && (
+            {user?.role === 'admin' && (
               <Button
                 variant={currentView === 'administration' ? 'default' : 'ghost'}
                 size="sm"
@@ -75,17 +82,17 @@ export function Header({ user, onLogout, onAdminPanel, currentView, onViewChange
         <div className="flex items-center space-x-4">
           <div className="flex items-center space-x-2">
             <User className="h-4 w-4 text-muted-foreground" />
-            <span className="text-sm font-medium">{user.username}</span>
+            <span className="text-sm font-medium">{user?.display_name || 'Utilisateur'}</span>
             <Badge 
-              variant={user.role === 'admin' ? 'default' : 'secondary'}
+              variant={user?.role === 'admin' ? 'default' : 'secondary'}
               className="animate-scale-in"
             >
-              {user.role === 'admin' ? 'Administrateur' : 'Consultation'}
+              {user?.role === 'admin' ? 'Administrateur' : user?.role === 'user' ? 'Utilisateur' : 'Consultation'}
             </Badge>
           </div>
 
           <div className="flex items-center space-x-2">
-            {user.role === 'admin' && onAdminPanel && (
+            {user?.role === 'admin' && onAdminPanel && (
               <Button 
                 variant="ghost" 
                 size="sm" 
@@ -134,7 +141,7 @@ export function Header({ user, onLogout, onAdminPanel, currentView, onViewChange
             <Tags className="mr-2 h-4 w-4" />
             Motifs
           </Button>
-          {user.role === 'admin' && (
+          {user?.role === 'admin' && (
             <Button
               variant={currentView === 'administration' ? 'default' : 'ghost'}
               size="sm"
