@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { Dashboard } from '@/components/Dashboard';
 import { VisitsList } from '@/components/VisitsList';
 import { VisitForm } from '@/components/VisitForm';
@@ -18,6 +18,7 @@ type ViewType = 'dashboard' | 'visits' | 'purposes' | 'administration';
 
 const Index = () => {
   const { session, profile, signOut, loading } = useSupabaseAuth();
+  const navigate = useNavigate();
   const { visits, stats, purposes, addVisit, updateVisit, deleteVisit, searchVisits, exportToCSV, exportToJSON, addPurpose, updatePurpose, deletePurpose } = useVisits();
   const { agents, addAgent, updateAgent, deleteAgent } = useAgents();
   const { toast } = useToast();
@@ -108,6 +109,7 @@ const Index = () => {
       <Header
         user={profile}
         onLogout={handleLogout}
+        onAdminPanel={() => navigate('/admin/users')}
         currentView={currentView}
         onViewChange={setCurrentView}
       />
